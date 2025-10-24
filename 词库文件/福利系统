@@ -1,0 +1,43 @@
+&&名称:福利系统
+&&作者:Mulq
+&&～
+
+
+福利系统
+看白/黑丝\r
+看jk\r
+Foxtips：50图/天
+
+
+看jk
+次:$读 涩图限制/%QQ% %时间yyyyMMdd% 0$
+如果:%次%>50
+上瘾了没有…小心点
+返回
+如果尾
+±img=http://api.yujn.cn/api/jk.php±
+$写 涩图限制/%QQ% %时间yyyyMMdd% [%次%+1]$
+
+//接口问题
+看白丝
+由于接口问题不能访问喵…\n
+请自行访问http://api.yujn.cn/api/heisi.php
+
+#次:$读 涩图限制/%QQ% %时间yyyyMMdd% 0$
+#如果:%次%>50
+#返回
+#如果尾
+#±img=http://api.yujn.cn/api/baisi.php±
+#$写 涩图限制/%QQ% %时间yyyyMMdd% [%次%+1]$
+
+//接口问题
+看黑丝
+由于接口问题不能访问喵…\n
+请自行访问http://api.yujn.cn/api/heisi.php
+
+#次:$读 涩图限制/%QQ% %时间yyyyMMdd% 0$
+#如果:%次%>50
+#返回
+#如果尾
+#±img=http://api.yujn.cn/api/heisi.php±
+#$写 涩图限制/%QQ% %时间yyyyMMdd% [%次%+1]$

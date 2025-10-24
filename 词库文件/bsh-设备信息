@@ -1,0 +1,15 @@
+&&名称:设备信息
+&&作者:Mulq
+&&实时监控！
+
+运行内存
+$BSH DeviceUtils.java getAvailMeTotalMemoryInfo$
+
+运行信息
+电量 $BSH Battery.java getLevel$\n
+温度 $BSH Battery.java getTemperature$\n
+电压 $BSH Battery.java getnVoltage$\n
+电流 $BSH Battery.java getCurrent$
+
+设备详细信息
+$BSH DeviceUtils.java getDeviceInfo$

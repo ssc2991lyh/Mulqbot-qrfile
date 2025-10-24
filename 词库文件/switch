@@ -1,0 +1,195 @@
+&&名称:Switch开关机
+&&作者:Mulq&Shuran Technology
+&&Switch
+&&Shuran Technology
+
+&&<配置>兼容模式:是
+开关机
+<switch>activate    //开启激活\n
+<switch>close activate      //关闭激活\n
+<switch>open     //打开开关\n
+<switch>close    //关闭开关\n
+<switch>table       //开关列表\n
+<switch>console key     //是啥我也忘了……
+
+<switch>activate
+a:$回调 data$
+如果:@a[1][administrator]==SR0
+b:@a[1]
+$JSON 添加 b cache true$
+d:[@a[0],%b%]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+±img=@a[0][resources][0][activate]±
+返回
+如果尾
+<switch module>Has been activated, no need to operate again.
+
+<switch>close activate([0-9]*)
+a:$回调 data$
+如果:@a[1][cache]==true&%括号1%==69
+b:@a[1]
+$JSON 添加 b cache false$
+d:[@a[0],%b%]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+返回
+如果尾
+如果:@a[1][cache]==true
+b:@a[1]
+$JSON 添加 b cache false$
+d:[@a[0],%b%]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+<switch module>Activation has been turned off.
+返回
+如果尾
+
+<switch>enable
+a:$回调 data$
+b:$回调 test_true$
+如果:@a[1][administrator]==SR%QQ%&%b%!=true
+%b%
+返回
+如果尾
+如果:@a[1][administrator]==SR%QQ%
+±img=@a[0][resources][0][open]±
+$调用 0 open_text_0$
+返回
+如果尾
+<switch module>Execution error.
+
+<switch>disable
+a:$回调 data$
+b:$回调 test_false$
+如果:@a[1][administrator]==SR%QQ%&%b%!=true
+%b%
+返回
+如果尾
+如果:@a[1][administrator]==SR%QQ%
+±img=@a[0][resources][0][close]±
+$回调 test_group$
+b:@a[1][group][0]
+$JSON 添加 b %群号% false$
+d:[@a[0],{"cache":@a[1][cache],"administrator":"@a[1][administrator]","group":[%b%]}]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+$延迟执行 %随机数6000-30000% ±img=@a[0][resources][0][close_success]±$
+
+<switch>table
+a:$回调 data$
+如果:@a[1][administrator]==SR%QQ%
+<switch module>table\%0A
+a:@a[1][group][0]
+a:$替换 Э %a%Э{"Э<$
+a:$替换 Э %a%Э}Э$
+a:$替换 Э %a%Э":Э>$
+$替换 Э %a%Э","Э\%0A<$
+
+<switch>console ([a-zA-Z0-9]+)
+a:$回调 data$
+如果:%括号1%==@a[0][key]
+<switch module>Welcome to the console!\%0A
+<modify key>key new-key\%0A
+<modify administrator>new-administrator\%0A
+<execute>variable
+返回
+如果尾
+
+<modify key>([a-zA-Z0-9]+) ([a-zA-Z0-9]+)
+a:$回调 data$
+如果:%括号1%==@a[0][key]
+b:@a[0]
+$JSON 添加 b key %括号2%$
+d:[%b%,@a[1]]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+返回
+如果尾
+<switch module>Please enter the correct key.
+
+<modify administrator>([a-zA-Z0-9]+) ([0-9]+)
+a:$回调 data$
+如果:%括号1%==@a[0][key]
+b:@a[1]
+$JSON 添加 b administrator %括号2%$
+d:[@a[0],%b%]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+返回
+如果尾
+<switch module>Please enter the correct key.
+
+<execute>([\s\S]+)
+a:$回调 data$
+如果:@a[1][administrator]==SR%QQ%
+<switch module>result\%0A
+$执行 %括号1%$
+\%0A<switch module>finish
+返回
+如果尾
+
+[内部]open_text_([0-9]+)
+a:%括号1%
+e:[%Time%^%Time%*%a%]
+如果:%a%==200
+$删除 /storage/emulated/0/QR/QRDic/data/[Magic_Lamp_Module]$
+$回调 open$
+返回
+如果尾
+如果:%a%>200
+$删除 /storage/emulated/0/QR/QRDic/data/[Magic_Lamp_Module]$
+b:$回调 data$
+±img=@b[0][resources][0][fail]±
+返回
+如果尾
+正则:$读 [Magic_Lamp_Module] text null$==.*neglect[3].*
+$写 [Magic_Lamp_Module] text %e%realize[3]%e%$
+a:[%a%+1]
+$调用 0 open_text_%a%$
+返回
+如果尾
+正则:$读 [Magic_Lamp_Module] text null$==.*realize[3].*
+$写 [Magic_Lamp_Module] text %e%realize[1]%e%$
+a:[%a%+1]
+$调用 0 open_text_%a%$
+返回
+如果尾
+正则:$读 [Magic_Lamp_Module] text null$==.*realize[1].*
+$写 [Magic_Lamp_Module] text %e%neglect[3]%e%$
+a:[%a%+1]
+$调用 0 open_text_%a%$
+返回
+如果尾
+$写 [Magic_Lamp_Module] text %e%neglect[3]%e%$
+a:[%a%+1]
+$调用 0 open_text_%a%$
+
+[内部]open
+a:$回调 data$
+b:@a[1][group][0]
+$JSON 添加 b %群号% true$
+d:[@a[0],{"cache":@a[1][cache],"administrator":"@a[1][administrator]","group":[%b%]}]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+±img=@a[0][resources][0][success]±
+
+[内部]test_(true|false)
+a:$回调 data$
+如果:@a[1][group][0][%群号%]==%括号1%
+<switch module>Execution error.
+返回
+如果尾
+true
+
+[内部]data
+$读文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json$
+
+([a-zA-Z0-9]+)
+a:$回调 data$
+如果:@a[1][cache]==true&%括号1%==@a[0][key]
+<switch module>The activation code is correct and the activation is successful.
+b:@a[1]
+$JSON 添加 b administrator SR%QQ%$
+d:[@a[0],%b%]
+$写文件 /storage/emulated/0/QR/QRDic/Switch_data/data.json %d%$
+$回调 <switch>close activate69$
+返回
+如果尾
+如果:@a[1][cache]==true&%括号1%!=@a[0][key]
+<switch module>Activation code error, activation failed.
+返回
+如果尾

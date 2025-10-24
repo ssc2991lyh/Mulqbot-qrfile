@@ -1,0 +1,24 @@
+使用前请导入dicpro词库，不要复制粘贴
+
+
+
+
+今日老婆
+h:$读 今日老婆/%群号%/%时间dd% %QQ% 0$
+如果:%h%!=0
+±at %QQ%±\r
+杂鱼~你已经领取过今日份老婆啦，你的老婆是
+±img=http://q2.qlogo.cn/headimg_dl?dst_uin=%h%&spec=5±
+【$群昵称 %群% %h%$】
+(%h%)
+返回
+如果尾
+a:$获取群成员 %群号%$
+c:$JSON 长度 a$
+d:$随机数 0-[%c%-1]$
+e:$JSON 获取 a %d%$
+%昵称%，你的今日份老婆是~
+±img=http://q2.qlogo.cn/headimg_dl?dst_uin=%e%&spec=5±
+【$群昵称 %群% %e%$】
+(%e%)
+$写 今日老婆/%群号%/%时间dd% %QQ% %e%$
